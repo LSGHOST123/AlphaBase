@@ -1,0 +1,5 @@
+{
+  "name": "AlphaBase",
+  "description": "Uma plataforma Cyberpunk de automação total para o backend Convex, permitindo criação de projetos e deploy instantâneo de código via API.",
+  "requestFramePermissions": []
+}
