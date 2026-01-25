@@ -19,7 +19,7 @@ const translations = {
     PROVISION_NODE: "PROVISION_NODE",
     ACTIVE_GRID: "Active_Grid",
     TELEMETRY_DESC: "Infrastructure telemetry & remote management",
-    ACTIVE_DEPLOYMENT: "Active_Deployment:",
+    ACTIVE_DEPLOYMENT: "ACTIVE_DEPLOYMENTS:",
     OPEN_INTEGRATED_PANEL: "OPEN_INTEGRATED_PANEL",
     CONVEX_CLOUD_DASH: "CONVEX_CLOUD_DASH",
     DESTROY_PROJECT: "DESTROY_PROJECT",
@@ -44,7 +44,7 @@ const translations = {
     PROVISION_NODE: "Criar projeto",
     ACTIVE_GRID: "Grid_Ativo",
     TELEMETRY_DESC: "Telemetria de infraestrutura e gerenciamento remoto",
-    ACTIVE_DEPLOYMENT: "Deployment_Ativo:",
+    ACTIVE_DEPLOYMENT: "DEPLOYMENTS_ATIVOS:",
     OPEN_INTEGRATED_PANEL: "ABRIR_PAINEL_INTEGRADO",
     CONVEX_CLOUD_DASH: "Abrir no CONVEX",
     DESTROY_PROJECT: "Excluir Projeto",
@@ -484,7 +484,7 @@ const App: React.FC = () => {
                 <div className="border border-dashed border-[#FF8C00]/40 p-6 min-h-[450px]">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {projects.map((p) => (
-                      <div key={p.id} className="p-6 border border-[#39FF14]/20 bg-black hover:border-[#39FF14] hover:shadow-[0_0_30px_rgba(57,255,20,0.15)] transition-all group relative overflow-hidden flex flex-col min-h-[350px]">
+                      <div key={p.id} className="p-6 border border-[#39FF14]/20 bg-black hover:border-[#39FF14] hover:shadow-[0_0_30px_rgba(57,255,20,0.15)] transition-all group relative overflow-hidden flex flex-col min-h-[420px]">
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex flex-col">
                             <h3 className="text-xl font-black uppercase tracking-tight truncate max-w-[150px] italic">{p.name}</h3>
@@ -498,12 +498,27 @@ const App: React.FC = () => {
                         </div>
 
                         {p.deployments && p.deployments.length > 0 ? (
-                          <div className="mb-4 space-y-4">
-                            <div className="p-2 bg-[#39FF14]/5 border border-[#39FF14]/20 text-[9px] shadow-[inset_0_0_10px_rgba(57,255,20,0.05)]">
-                              <p className="opacity-40 uppercase text-[7px] mb-1 font-bold tracking-tighter">{t.ACTIVE_DEPLOYMENT}</p>
-                              <p className="text-white truncate font-bold tracking-widest uppercase mb-1">{p.deployments[0].deploymentName}</p>
-                              <p className="text-[#39FF14]/60 truncate lowercase italic font-mono">{p.deployments[0].deploymentUrl}</p>
-                            </div>
+                          <div className="mb-4 flex-grow">
+                             <p className="opacity-40 uppercase text-[7px] mb-2 font-bold tracking-tighter">{t.ACTIVE_DEPLOYMENT}</p>
+                             <div className="space-y-2 overflow-y-auto max-h-[160px] pr-1">
+                                {p.deployments.map((dep, dIdx) => (
+                                  <div key={dIdx} className="p-2 bg-[#39FF14]/5 border border-[#39FF14]/20 text-[9px] shadow-[inset_0_0_10px_rgba(57,255,20,0.05)] hover:border-[#39FF14]/40 transition-all">
+                                    <div className="flex justify-between items-center mb-1">
+                                      <span className={`text-[7px] font-black px-1.5 py-0.5 uppercase ${dep.deploymentType === 'prod' ? 'bg-yellow-500 text-black' : 'bg-[#39FF14]/20 text-[#39FF14]'}`}>
+                                        {dep.deploymentType}
+                                      </span>
+                                      <button 
+                                        onClick={() => handleOpenPanel(dep)}
+                                        className="text-[8px] text-[#39FF14] underline opacity-40 hover:opacity-100 font-bold uppercase"
+                                      >
+                                        [OPEN]
+                                      </button>
+                                    </div>
+                                    <p className="text-white truncate font-bold tracking-widest uppercase mb-0.5">{dep.deploymentName}</p>
+                                    <p className="text-[#39FF14]/50 truncate lowercase italic font-mono text-[8px]">{dep.deploymentUrl}</p>
+                                  </div>
+                                ))}
+                             </div>
                           </div>
                         ) : (
                           <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 text-[8px] text-red-500 uppercase italic font-bold text-center tracking-widest">
@@ -511,7 +526,7 @@ const App: React.FC = () => {
                           </div>
                         )}
 
-                        <div className="mt-auto">
+                        <div className="mt-auto pt-4 border-t border-[#39FF14]/10">
                           <div className="grid grid-cols-2 gap-2 font-mono">
                             <button 
                               className="py-3 bg-[#39FF14]/10 border border-[#39FF14]/40 text-[#39FF14] text-[9px] font-black uppercase hover:bg-[#39FF14] hover:text-black transition-all shadow-[inset_0_0_10px_rgba(57,255,20,0.1)] disabled:opacity-30 disabled:cursor-not-allowed active:scale-95"
