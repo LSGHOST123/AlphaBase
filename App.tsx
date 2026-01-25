@@ -32,6 +32,7 @@ const translations = {
     UPLINK_STATUS: "Protocol Alpha_OS v1.7.7:",
     ACCESS_UPLINK: "ACCESS_UPLINK",
     AUTHORIZE: "AUTHORIZE_CONNECTION",
+    CONVEX_DASH_LINK: "ACCESS CONVEX DASHBOARD (GET TOKENS)",
   },
   pt: {
     SYSTEM_CONTROL: "Controle_de_Sistemas",
@@ -56,6 +57,7 @@ const translations = {
     UPLINK_STATUS: "Protocolo Alpha_OS v1.7.7:",
     ACCESS_UPLINK: "ACESSO_UPLINK",
     AUTHORIZE: "AUTORIZAR_CONEXÃO",
+    CONVEX_DASH_LINK: "ACESSAR DASHBOARD CONVEX (PEGAR TOKENS)",
   }
 };
 
@@ -413,11 +415,22 @@ const App: React.FC = () => {
             <div className="flex flex-col items-center justify-center py-20 gap-10 animate-in fade-in duration-1000">
               <div className="text-center max-w-lg">
                 <p className="text-3xl mb-4 font-black tracking-tighter italic neon-glow uppercase tracking-widest">{t.ACCESS_UPLINK}</p>
-                <div className="bg-[#39FF14]/5 p-6 border border-[#39FF14]/20 text-[10px] text-left mb-8 space-y-2 opacity-80 uppercase leading-relaxed shadow-[inset_0_0_20px_rgba(57,255,20,0.05)]">
+                <div className="bg-[#39FF14]/5 p-6 border border-[#39FF14]/20 text-[10px] text-left mb-6 space-y-2 opacity-80 uppercase leading-relaxed shadow-[inset_0_0_20px_rgba(57,255,20,0.05)]">
                   <p className="text-[#39FF14] font-bold border-b border-[#39FF14]/20 pb-1 text-center">{t.UPLINK_STATUS}</p>
                   <p>&gt; MANAGEMENT_CORE: Operational</p>
                   <p>&gt; DEPLOY_AUTO_SYNC: Enabled</p>
                   <p>&gt; ADMIN_TUNNEL_V2: Ready</p>
+                </div>
+                
+                <div className="mb-8">
+                  <a 
+                    href="https://dashboard.convex.dev" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[10px] font-bold text-[#39FF14]/50 hover:text-[#39FF14] transition-all uppercase tracking-widest border border-dashed border-[#39FF14]/20 px-4 py-2 hover:bg-[#39FF14]/10"
+                  >
+                    {t.CONVEX_DASH_LINK}
+                  </a>
                 </div>
               </div>
               
