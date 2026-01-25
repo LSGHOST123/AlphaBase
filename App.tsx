@@ -415,9 +415,9 @@ const App: React.FC = () => {
                 <p className="text-3xl mb-4 font-black tracking-tighter italic neon-glow uppercase tracking-widest">{t.ACCESS_UPLINK}</p>
                 <div className="bg-[#39FF14]/5 p-6 border border-[#39FF14]/20 text-[10px] text-left mb-8 space-y-2 opacity-80 uppercase leading-relaxed shadow-[inset_0_0_20px_rgba(57,255,20,0.05)]">
                   <p className="text-[#39FF14] font-bold border-b border-[#39FF14]/20 pb-1 text-center">{t.UPLINK_STATUS}</p>
-                  <p>> MANAGEMENT_CORE: Operational</p>
-                  <p>> DEPLOY_AUTO_SYNC: Enabled</p>
-                  <p>> ADMIN_TUNNEL_V2: Ready</p>
+                  <p>&gt; MANAGEMENT_CORE: Operational</p>
+                  <p>&gt; DEPLOY_AUTO_SYNC: Enabled</p>
+                  <p>&gt; ADMIN_TUNNEL_V2: Ready</p>
                 </div>
               </div>
               
