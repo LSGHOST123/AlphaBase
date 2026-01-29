@@ -589,7 +589,7 @@ const App: React.FC = () => {
              <span className="w-2 h-2 bg-[#39FF14] rounded-full animate-ping"></span>
              <span>Network: Secure</span>
           </div>
-          <span>Security_Grade: Alpha_Zero</span>
+          <span>Made by Lucas Simioni</span>
         </div>
       </footer>
     </div>
