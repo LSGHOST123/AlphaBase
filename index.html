@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AlphaBase | Control Console</title>
+    <title>AlphaBase</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -14,34 +15,46 @@
         margin: 0;
         overflow-x: hidden;
       }
-      .neon-glow { text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14; }
-      ::-webkit-scrollbar { width: 4px; }
-      ::-webkit-scrollbar-track { background: #000; }
-      ::-webkit-scrollbar-thumb { background: #39FF14; }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #000;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #39FF14;
+        border-radius: 4px;
+      }
+      .neon-glow {
+        text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14;
+      }
+      .neon-border {
+        box-shadow: 0 0 10px #39FF14;
+        border: 1px solid #39FF14;
+      }
+      .neon-border-pulse {
+        animation: pulse-neon 2s infinite alternate;
+      }
+      @keyframes pulse-neon {
+        from { box-shadow: 0 0 5px #39FF14; }
+        to { box-shadow: 0 0 20px #39FF14; }
+      }
     </style>
-    <script type="importmap">
+  <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "react-router-dom": "https://esm.sh/react-router-dom@7.1.0?external=react,react-dom",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "vite": "https://esm.sh/vite@^7.3.1",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "path": "https://esm.sh/path@^0.12.7",
-    "url": "https://esm.sh/url@^0.11.4"
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",
+    "vite": "https://esm.sh/vite@^7.3.1"
   }
 }
 </script>
-  </head>
+</head>
   <body>
     <div id="root"></div>
-    <!-- 
-      FIX: Uso de caminho relativo direto para permitir que o Vite/Preview 
-      resolva o arquivo .tsx através de seus próprios mecanismos de build.
-    -->
     <script type="module" src="index.tsx"></script>
   </body>
 </html>
