@@ -38,14 +38,10 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module">
-      // Resolve o caminho absoluto para o script principal
-      const script = document.createElement('script');
-      script.type = 'module';
-      const basePath = window.location.pathname.replace(/\/[^\/]*$/, '');
-      const cleanPath = basePath === '/' ? '' : basePath;
-      script.src = window.location.origin + cleanPath + '/index.tsx';
-      document.body.appendChild(script);
-    </script>
+    <!-- 
+      FIX: Uso de caminho relativo direto para permitir que o Vite/Preview 
+      resolva o arquivo .tsx através de seus próprios mecanismos de build.
+    -->
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>

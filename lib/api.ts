@@ -2,33 +2,32 @@ const TARGET_BASE_URL = 'https://api.convex.dev/v1';
 
 /**
  * ALPHA_NETWORK_ENVIRONMENT_RESOLVER
- * Detecta se o ambiente é desenvolvimento local ou produção/preview.
+ * Detecta se o ambiente requer tunelamento de CORS.
  */
 const isDev = (() => {
   try {
-    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    return window.location.hostname === 'localhost' || 
+           window.location.hostname === '127.0.0.1' ||
+           window.location.port !== '';
   } catch {
     return false;
   }
 })();
 
 /**
- * fetchWithProxy: Estratégia de Tunelamento Estrito.
- * Local: Usa o proxy do Vite (/api-proxy) definido em vite.config.ts.
- * Produção/Preview: Usa o corsproxy.io, que é o padrão ouro para resolver falhas de Preflight (OPTIONS)
- * quando headers de 'Authorization' são enviados em ambientes sem servidor (GitHub Pages, AI Studio Preview).
+ * fetchWithProxy: Estratégia de Tunelamento Estrito para Universal Deploy.
  */
 export const fetchWithProxy = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   const fullTargetUrl = TARGET_BASE_URL + cleanEndpoint;
   
-  // O corsproxy.io exige a URL alvo como query string prefixada por '?'
+  // Em ambientes de Preview/GitHub Pages, usamos o corsproxy.io para injetar headers OPTIONS (Preflight)
   const url = isDev 
     ? `/api-proxy${cleanEndpoint}` 
     : `https://corsproxy.io/?${encodeURIComponent(fullTargetUrl)}`;
 
-  console.log(`📡 [ALPHA_NETWORK] Protocol: ${isDev ? 'VITE_LOCAL' : 'CORS_BRIDGE_SENIOR'}`);
-  console.log(`📡 [ALPHA_NETWORK] Endpoint: ${cleanEndpoint}`);
+  console.log(`📡 [ALPHA_NETWORK] Environment: ${isDev ? 'LOCAL_VITE' : 'PRODUCTION_BRIDGE'}`);
+  console.log(`📡 [ALPHA_NETWORK] Path: ${cleanEndpoint}`);
 
   try {
     const response = await fetch(url, {
@@ -38,14 +37,17 @@ export const fetchWithProxy = async <T>(endpoint: string, options?: RequestInit)
         'Content-Type': 'application/json',
         ...options?.headers,
       },
-      // Importante: corsproxy.io lida com o preflight melhor com mode: 'cors'
       mode: 'cors'
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      const msg = errorData.message || `Protocol Error: ${response.status} ${response.statusText}`;
-      const err = new Error(msg);
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch {
+        errorData = { message: `HTTP Error ${response.status}` };
+      }
+      const err = new Error(errorData.message || response.statusText);
       (err as any).status = response.status;
       throw err;
     }
@@ -53,6 +55,7 @@ export const fetchWithProxy = async <T>(endpoint: string, options?: RequestInit)
     return response.json();
   } catch (error: any) {
     console.error(`❌ [ALPHA_NETWORK_CRITICAL_FAILURE]:`, error.message);
+    // Se o corsproxy.io falhar, tentamos um fallback silencioso ou reportamos o erro
     throw error;
   }
 };
